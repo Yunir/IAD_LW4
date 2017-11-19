@@ -16,10 +16,10 @@ public class gwt implements EntryPoint {
      * This is the entry point method.
      */
     public void onModuleLoad() {
-        final Button button = new Button("Click me");
-        final Label label = new Label();
+        final Button toMain = new Button("Go into!");
+        //final Label label = new Label();
 
-        button.addClickHandler(new ClickHandler() {
+        /*toMain.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 if (label.getText().equals("")) {
                     gwtService.App.getInstance().getMessage("Hello, World!", new MyAsyncCallback(label));
@@ -27,23 +27,22 @@ public class gwt implements EntryPoint {
                     label.setText("");
                 }
             }
-        });
+        });*/
 
         // Assume that the host HTML has elements defined whose
         // IDs are "slot1", "slot2".  In a real app, you probably would not want
         // to hard-code IDs.  Instead, you could, for example, search for all
         // elements with a particular CSS class and replace them with widgets.
         //
-        RootPanel.get("slot1").add(button);
-        RootPanel.get("slot2").add(label);
+        /*RootPanel.get("toMain").add(toMain);*/
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
         private Label label;
 
-        public MyAsyncCallback(Label label) {
+        /*public MyAsyncCallback(Label label) {
             this.label = label;
-        }
+        }*/
 
         public void onSuccess(String result) {
             label.getElement().setInnerHTML(result);

@@ -141,7 +141,7 @@ input.error {
     margin-bottom: 5px;
 }
 
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 1360px) {
     #about, #content, header {
         width: 748px;
     }
@@ -151,7 +151,7 @@ input.error {
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1217px) {
     #about, #content, header {
         width: 460px;
     }
@@ -168,7 +168,7 @@ input.error {
     }
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 847px) {
     #about, #content, header {
         width: 300px;
     }

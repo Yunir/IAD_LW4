@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IAD_LW4</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <!-- This script is required bootstrap stuff.   -->
+    <script type="text/javascript" language="javascript" src="gwt/gwt.nocache.js"></script>
+</head>
+<body>
+<header>
+    <img src="img/logo.png" alt="logo"/>
+    <p>Web-service developed by Promotorov Vlad and Salimzyanov Yunir from P3211. Variant 482.</p>
+</header>
+<div id="content">
+    <div id="time"></div>
+    <div id="description">
+        <h1>What is helpSystems?</h1>
+        <p>HelpSystems is a free service developed by some student to help another students successfully do their homework.</p>
+        <p>You only need to enter data and the program will do everything for you.</p>
+    </div>
+    <div class="program">
+        <div id="leftSide">
+            <form id="canvaForm">
+                Here will be canvas
+                <!--<h:inputHidden id="canvaX" value="#{StudentsBean.enterX}" />
+                <h:inputHidden id="canvaY" value="#{StudentsBean.enterY}" />
+                <canvas id="plot" width="300" height="300">
+                    Canvas not supported
+                </canvas>
+                <p:remoteCommand name="canvaReady" action="#{StudentsBean.addToList}" update=":resultss" />-->
+            </form>
+            <div id="infoR">You don't set R yet..</div>
+            <div id="results1"></div>
+        </div>
+        <div class="form">
+            <form id="formm" method="post" class="data-form" prependId="false">
+                <!--<h:inputHidden id="disr" value="#{StudentsBean.enterR}" />-->
+                <table cellpadding="10">
+                    <tr>
+                        <th>Choose X:</th>
+                        <td>
+                            Here will be X chooser
+                            <!--<h:selectOneMenu value = "#{StudentsBean.enterX}">
+                                <f:selectItem itemValue = "enterX1" itemLabel = "-2"/>
+                                <f:selectItem itemValue = "enterX2" itemLabel = "-1.5"/>
+                                <f:selectItem itemValue = "enterX3" itemLabel = "-1"/>
+                                <f:selectItem itemValue = "enterX4" itemLabel = "-0.5"/>
+                                <f:selectItem itemValue = "enterX5" itemLabel = "0"/>
+                                <f:selectItem itemValue = "enterX6" itemLabel = "0.5"/>
+                                <f:selectItem itemValue = "enterX7" itemLabel = "1"/>
+                                <f:selectItem itemValue = "enterX8" itemLabel = "1.5"/>
+                                <f:selectItem itemValue = "enterX9" itemLabel = "2"/>
+                            </h:selectOneMenu>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Write Y:</th>
+                        <td>
+                            Here will be Y chooser
+                            <!--<h:inputText value = "#{StudentsBean.enterY}" id="enterY" name="enterY" title="y" validatorMessage="Enter correct Y (from -5 to 5)">
+                                <f:validateDoubleRange minimum="-5.0" maximum="5.0" for="enterY"/>
+                            </h:inputText><br/>
+                            <h:message id="m6" for="enterY" style="color:red"/>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Choose R: </th>
+                        <td id="r">
+                            Here will be R chooser
+                            <!--<h:commandButton id="r1" class="button" value="1" type="button"/>
+                            <h:commandButton id="r2" class="button" value="2" type="button"/>
+                            <h:commandButton id="r3" class="button" value="3" type="button"/>
+                            <h:commandButton id="r4" class="button" value="4" type="button"/>
+                            <h:commandButton id="r5" class="button" value="5" type="button"/>
+                            <p:remoteCommand name="changeR" action="#{StudentsBean.changeR}" update=":resultss" />-->
+                            <div id="mesR">R not choosed..</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>Here will be check button<!--<h:commandButton value="Check" action="#{StudentsBean.addToList}" class="button"/>--></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div id="refresh"></div>
+    <form action="index.html" method="post">
+        <input type="submit" value="Go to first page!">
+    </form>
+    Here will be table of results
+    <!--<h:dataTable value="#{StudentsBean.getHitsList()}" var="c"
+                 styleClass="order-table"
+                 headerClass="order-table-header"
+                 rowClasses="order-table-odd-row,order-table-even-row"
+                 id="resultss"
+    >
+
+        <h:column>
+            <f:facet name="header">
+                X
+            </f:facet>
+            #{c.x}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Y
+            </f:facet>
+            #{c.y}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                R
+            </f:facet>
+            #{c.r}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Answer
+            </f:facet>
+            #{c.res}
+        </h:column>
+
+    </h:dataTable>-->
+</div>
+</body>
+</html>
