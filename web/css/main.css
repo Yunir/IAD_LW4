@@ -1,8 +1,8 @@
 body {
-    background: #f2f4f6 url("#{resource['img/bg.jpg']}") 0 20px;
+    background: #f2f4f6 url("../img/bg.jpg") 0 20px;
 }
 
-#header {
+header {
     width: 960px;
     margin: 0 auto;
     text-align: center;
@@ -12,7 +12,7 @@ body {
     border-radius: 10px 10px 0 0;
 }
 
-#header img {
+header img {
     width: 100%;
     max-width: 200px;
     height: auto;
@@ -142,11 +142,7 @@ input.error {
 }
 
 @media screen and (max-width: 999px) {
-    #about {
-        width: 748px;
-    }
-
-    #content {
+    #about, #content, header {
         width: 748px;
     }
 
@@ -156,11 +152,7 @@ input.error {
 }
 
 @media screen and (max-width: 767px) {
-    #about {
-        width: 460px;
-    }
-
-    #content {
+    #about, #content, header {
         width: 460px;
     }
 
@@ -177,11 +169,7 @@ input.error {
 }
 
 @media screen and (max-width: 479px) {
-    #about {
-        width: 300px;
-    }
-
-    #content {
+    #about, #content, header {
         width: 300px;
     }
 
@@ -196,10 +184,3 @@ input.error {
         width: 100%;
     }
 }
-/*.result {
-    display: block;
-}
-
-#clear {
-    display: block;
-}*/
