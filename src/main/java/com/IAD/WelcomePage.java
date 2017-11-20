@@ -10,7 +10,6 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
-import org.vaadin.hezamu.canvas.Canvas;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -35,7 +34,7 @@ public class WelcomePage extends UI {
                 getNavigator().navigateTo(SecurePage.NAME);
             }
         }else{
-            getNavigator().navigateTo(LoginPage.NAME);
+            getNavigator().navigateTo(LoginForm.NAME);
         }
     }
 
@@ -46,8 +45,8 @@ public class WelcomePage extends UI {
         AUTH = new Authentication();
         new Navigator(this, this);
 
-        getNavigator().addView(LoginPage.NAME, LoginPage.class);
-        getNavigator().setErrorView(LoginPage.class);
+        getNavigator().addView(LoginForm.NAME, LoginForm.class);
+        getNavigator().setErrorView(LoginForm.class);
 
         Page.getCurrent().addUriFragmentChangedListener(new Page.UriFragmentChangedListener() {
 

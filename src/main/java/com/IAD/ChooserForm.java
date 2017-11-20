@@ -1,5 +1,7 @@
 package com.IAD;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.converter.StringToDoubleConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.RadioButtonGroup;
@@ -28,6 +30,15 @@ public class ChooserForm extends FormLayout {
         r_chooser.setItems("-3","-2","-1","0","1","2","3","4","5");
         r_chooser.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
 
+        new Binder<Hit>().forField(y_chooser)
+                .withValidator(str -> str.length() != 0, "You should fill this field")
+                .withValidator(str -> str.indexOf('.') == -1, "You should use como for float numbers")
+                .withConverter(new StringToDoubleConverter("Input must be a number"))
+                .withValidator(dbl -> dbl > -3, "The number must be greater than -3")
+                .withValidator(dbl -> dbl < 5, "The number must be lower than 5")
+                .bind(Hit::getY, Hit::setY);
+
         addComponents(x_chooser, y_chooser, r_chooser, b_checkHit);
+
     }
 }

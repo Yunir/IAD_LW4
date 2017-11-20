@@ -15,11 +15,11 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class LoginPage extends VerticalLayout implements View {
+public class LoginForm extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
     public static final String NAME = "";
 
-    public LoginPage(){
+    public LoginForm(){
         Panel panel = new Panel("Login");
         panel.setSizeUndefined();
         addComponent(panel);
