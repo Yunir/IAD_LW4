@@ -68,14 +68,6 @@ public class SecurePage extends VerticalLayout implements View {
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
         addComponent(body);
 
-
-
-        Button b_toIndex = new Button("Return to first page!");
-        b_toIndex.addClickListener(e -> {
-            addComponent(new Label("Thanks "
-                    + ", it works!"));
-        });
-
         otherSecure = new Button("OtherSecure");
         otherSecure.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
