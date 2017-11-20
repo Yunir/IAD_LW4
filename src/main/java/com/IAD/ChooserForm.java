@@ -7,16 +7,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class ChooserForm extends FormLayout {
-    RadioButtonGroup<String> x_chooser = new RadioButtonGroup<>("Choose the X value:");
-    TextField y_chooser = new TextField();
+    private RadioButtonGroup<String> x_chooser = new RadioButtonGroup<>("Choose the X value:");
+    private TextField y_chooser = new TextField();
+    private RadioButtonGroup<String> r_chooser = new RadioButtonGroup<>("Choose the R value:");
+    private Button b_checkHit = new Button("I'm lucky!");
 
-    RadioButtonGroup<String> r_chooser = new RadioButtonGroup<>("Choose the R value:");
+    private SecurePage myUI;
 
-    Button b_checkHit = new Button("I'm lucky!");
-
-    private MyUI myUI;
-
-    public ChooserForm(MyUI myUI) {
+    public ChooserForm(SecurePage myUI) {
         this.myUI = myUI;
 
         setSizeUndefined();
