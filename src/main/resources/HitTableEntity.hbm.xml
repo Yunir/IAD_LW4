@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.IAD.HitTableEntity" table="hit_table" schema="public" catalog="postgres">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="userId">
+            <column name="user_id" sql-type="varchar(60)" length="60" not-null="true"/>
+        </property>
+        <property name="x">
+            <column name="x" sql-type="double precision" precision="-1"/>
+        </property>
+        <property name="y">
+            <column name="y" sql-type="double precision" precision="-1"/>
+        </property>
+        <property name="r">
+            <column name="r" sql-type="integer"/>
+        </property>
+        <property name="answer">
+            <column name="answer" sql-type="boolean" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

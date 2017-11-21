@@ -1,13 +1,33 @@
 package com.IAD;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "hit_table")
 public class Hit implements Serializable {
+    private static final long serialVersionUID = -5170875020617735653L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "my_entity_seq_gen")
+    @SequenceGenerator(name = "my_entity_seq_gen", sequenceName = "catalog_seq")
+    private long id;
+
+    @Column(nullable=false)
     private int x;
+    @Column
     private double y;
+    @Column(nullable=false)
     private int r;
+    @Column(name="answer")
     private boolean res;
 
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
     public int getX() {
         return x;
     }
