@@ -1,5 +1,9 @@
 package com.IAD;
 
+import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.CDIView;
+import com.vaadin.cdi.CDIViewProvider;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
@@ -10,9 +14,25 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.apache.deltaspike.core.api.resourceloader.InjectableResource;
 import org.vaadin.hezamu.canvas.Canvas;
+import sun.applet.Main;
 
+import javax.ejb.EJB;
+import javax.inject.Inject;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import static elemental.dom.Document.Events.UI;
+
+@CDIView("secure")
 public class SecurePage extends VerticalLayout implements View {
+    @Inject
+    private CDIViewProvider viewProvider;
+
+    MainBean mb;
+
     private Canvas canvas;
     private static final long serialVersionUID = 1L;
     private Label secure;
@@ -20,9 +40,11 @@ public class SecurePage extends VerticalLayout implements View {
     private Button otherSecure;
     private Button logout;
     public static final String NAME = "Secure";
-
-    public SecurePage() {
-
+    public SecurePage() throws NamingException {
+        /*mb.simple();*/
+        Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
+        mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
+        mb.simple();
         canvas = new Canvas();
         canvas.setWidth("300px");
         canvas.setHeight("300px");
@@ -67,6 +89,8 @@ public class SecurePage extends VerticalLayout implements View {
         ChooserForm chooserForm = new ChooserForm(this);
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
         addComponent(body);
+
+
 
         otherSecure = new Button("OtherSecure");
         otherSecure.addClickListener(new ClickListener() {

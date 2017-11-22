@@ -1,17 +1,74 @@
 package com.IAD;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Metamodel;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Model;
+import javax.persistence.metamodel.EntityType;
+import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.util.Date;
 import java.util.List;
 
-@Stateless(name = "MainEJB")
-public class MainBean {
+@Model
+@Stateless
+@Dependent
+@LocalBean
+//TODO: change direction to secure page again and add LocalBean annotation
+public class MainBean implements IMainBean, Serializable {
+    private static final SessionFactory ourSessionFactory;
+
+    static {
+        try {
+            Configuration configuration = new Configuration();
+            configuration.configure();
+            ourSessionFactory = configuration.buildSessionFactory();
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println(MainBean.class.getName() + " constructed successfully on "+ new Date().toString());
+    }
+
+    public Session getSession() throws HibernateException {
+        return ourSessionFactory.openSession();
+    }
+
     public MainBean() {
     }
 
-    public Connection getConnection(){
-        return null;
+
+    public void getConnection(){
+        final Session session = getSession();
+        try {
+            System.out.println("querying all the managed entities...");
+            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
+            for (EntityType<?> entityType : metamodel.getEntities()) {
+                final String entityName = entityType.getName();
+                final Query query = session.createQuery("from " + entityName);
+                System.out.println("executing: " + query.getQueryString());
+                System.out.println("Size " + query.list().size());
+                for (Object o : query.list()) {
+                    System.out.println("yes");
+                    System.out.println("  " + o);
+                }
+                System.out.println("no");
+            }
+        } finally {
+            session.close();
+        }
     }
 
     public List<Hit> getHitsList(){
@@ -19,6 +76,9 @@ public class MainBean {
     }
 
     public String addToList(){
+        //todo: connection
+        //todo: get the result from checkArea
+        //todo: insert command
         return null;
     }
 
@@ -40,5 +100,10 @@ public class MainBean {
             System.out.println("Why there's mistake?!");
             return false;
         }
+    }
+
+    @Override
+    public void simple() {
+        System.out.println("ALALALLALA");
     }
 }

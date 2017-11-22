@@ -45,12 +45,6 @@ public class ChooserForm extends FormLayout {
                 .withConverter(new StringToIntegerConverter("Do u a hacker?"))
                 .bind(Hit::getR, Hit::setR);
 
-
-        b_checkHit.addClickListener(e -> {
-
-        });
-
-
         addComponents(x_chooser, y_chooser, r_chooser, b_checkHit);
 
     }

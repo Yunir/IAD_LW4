@@ -1,10 +1,13 @@
 package com.IAD;
 
+import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
@@ -20,8 +23,14 @@ import com.vaadin.ui.*;
  */
 @Theme("mytheme")
 @Widgetset("AppWidgetset")
+/*@CDIUI("welcome")*/
 public class WelcomePage extends UI {
     public static Authentication AUTH;
+    @Inject
+    private CDIViewProvider viewProvider;
+    /*@Inject
+    MainBean mb;*/
+
 
     private void router(String route){
         Notification.show(route);
@@ -47,7 +56,8 @@ public class WelcomePage extends UI {
 
         getNavigator().addView(LoginForm.NAME, LoginForm.class);
         getNavigator().setErrorView(LoginForm.class);
-
+        /*getNavigator().addProvider(viewProvider);*/
+        //mb.simple();
         Page.getCurrent().addUriFragmentChangedListener(new Page.UriFragmentChangedListener() {
 
             @Override
