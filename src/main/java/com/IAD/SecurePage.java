@@ -8,12 +8,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.apache.deltaspike.core.api.resourceloader.InjectableResource;
 import org.vaadin.hezamu.canvas.Canvas;
 import sun.applet.Main;
@@ -23,6 +20,8 @@ import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import java.util.Optional;
 
 import static elemental.dom.Document.Events.UI;
 
@@ -44,7 +43,6 @@ public class SecurePage extends VerticalLayout implements View {
         /*mb.simple();*/
         Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
         mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
-        mb.simple();
         canvas = new Canvas();
         canvas.setWidth("300px");
         canvas.setHeight("300px");
@@ -90,6 +88,15 @@ public class SecurePage extends VerticalLayout implements View {
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
         addComponent(body);
 
+        chooserForm.getB_checkHit().addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                if (!chooserForm.getBinder().validate().isOk())
+                    Notification.show("Alert:", "You should select all the fields", Notification.Type.WARNING_MESSAGE);
+                //Notification.show("Alert:", "sss", Notification.Type.WARNING_MESSAGE);
+                mb.simple();
+            }
+        });
 
 
         otherSecure = new Button("OtherSecure");
@@ -126,7 +133,6 @@ public class SecurePage extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeEvent event) {
         currentUser.setCaption("Current user : " + VaadinSession.getCurrent().getAttribute("user").toString());
-
     }
 
 }
