@@ -36,6 +36,7 @@ public class SecurePage extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
     private Label secure;
     private Label currentUser;
+    private Label title;
     private Button otherSecure;
     private Button logout;
     public static final String NAME = "Secure";
@@ -43,6 +44,7 @@ public class SecurePage extends VerticalLayout implements View {
         /*mb.simple();*/
         Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
         mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
+        title = new Label("Web-service developed by Promotorov Vlad and Salimzyanov Yunir from P3211.\nVariant 482");
         canvas = new Canvas();
         canvas.setWidth("300px");
         canvas.setHeight("300px");
@@ -86,7 +88,7 @@ public class SecurePage extends VerticalLayout implements View {
         /*Implementation of choosers*/
         ChooserForm chooserForm = new ChooserForm(this);
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
-        addComponent(body);
+        addComponents(title, body);
 
         chooserForm.getB_checkHit().addClickListener(new ClickListener() {
             @Override
