@@ -1,9 +1,7 @@
 package com.IAD;
 
-import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.CDIViewProvider;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
@@ -13,19 +11,12 @@ import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import org.apache.deltaspike.core.api.resourceloader.InjectableResource;
 import org.vaadin.hezamu.canvas.Canvas;
-import sun.applet.Main;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import java.util.Optional;
-
-import static elemental.dom.Document.Events.UI;
 
 @CDIView("secure")
 public class SecurePage extends VerticalLayout implements View {
@@ -33,7 +24,7 @@ public class SecurePage extends VerticalLayout implements View {
     private CDIViewProvider viewProvider;
 
     MainBean mb;
-
+    private int R = 0;
     private Canvas canvas;
     private static final long serialVersionUID = 1L;
     private Label secure;
@@ -103,11 +94,18 @@ public class SecurePage extends VerticalLayout implements View {
         canvas.addMouseDownListener(new Canvas.CanvasMouseDownListener() {
             @Override
             public void onMouseDown(MouseEventDetails mouseEvent) {
+                double x = mouseEvent.getRelativeX();
+                double y = mouseEvent.getRelativeY();
+                x -= 150;
+                y -= 150;
+                y *= -1;
+                x = x/100*5;
+                y = y/100*5;
                 System.out.println("Mouse clicked to "
-                        + mouseEvent.getRelativeX() + ","
-                        + mouseEvent.getRelativeY()
+                        + x + ","
+                        + y
                 );
-                canvas.setFillStyle("gray");
+                canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
                 canvas.fillRect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
             }
         });
@@ -116,6 +114,8 @@ public class SecurePage extends VerticalLayout implements View {
         ChooserForm chooserForm = new ChooserForm(this);
         chooserForm.getR_chooser().addSelectionListener(singleSelectionEvent -> {
                     int mult = Integer.parseInt(chooserForm.getR_chooser().getSelectedItem().orElse("0"));
+                    setR(mult);
+                    System.out.println(getR());
                     canvas.clear();
 
                     canvas.beginPath();
@@ -206,4 +206,28 @@ public class SecurePage extends VerticalLayout implements View {
         currentUser.setCaption("Current user : " + VaadinSession.getCurrent().getAttribute("user").toString());
     }
 
+    private boolean checkArea(double x, double y, double r){
+        if (r == 0) return false;
+        System.out.println("Get values " + x + ", " + y + ", " + r);
+        if((x >= 0 && y >= 0) && (x <= r) && (y <= (r/2))){
+            System.out.println("rect");
+            return true;
+        } else if(x >= 0 && y <= 0 && y >= (x-(r/2))){
+            System.out.println("triangle");
+            return true;
+        } else if (x <= 0 && y >= 0 && (r/2) >= Math.sqrt(y*y+x*x)){
+            System.out.println("circle");
+            return true;
+        } else {
+            System.out.println("Not hitted");
+            return false;
+        }
+    }
+
+    public void setR(int r) {
+        R = r;
+    }
+    public int getR() {
+        return R;
+    }
 }
