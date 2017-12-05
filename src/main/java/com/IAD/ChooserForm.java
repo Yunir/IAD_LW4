@@ -58,7 +58,7 @@ public class ChooserForm extends FormLayout {
         y_chooser.setCaption("Write the Y value:");
         y_chooser.setPlaceholder("from -3 to 5");
 
-        r_chooser.setItems("-3","-2","-1","0","1","2","3","4","5");
+        r_chooser.setItems("1","2","3","4","5");
         r_chooser.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
 
         binder = new Binder<>(Hit.class);

@@ -94,12 +94,12 @@ public class SecurePage extends VerticalLayout implements View {
         canvas.moveTo(150, 30);
         canvas.lineTo(150, 270);
         canvas.moveTo(30, 150);
-        canvas.closePath();
         canvas.stroke();
+        canvas.closePath();
         canvas.beginPath();
         canvas.moveTo(150, 150);
-        canvas.closePath();
         canvas.stroke();
+        canvas.closePath();
         canvas.addMouseDownListener(new Canvas.CanvasMouseDownListener() {
             @Override
             public void onMouseDown(MouseEventDetails mouseEvent) {
@@ -107,15 +107,55 @@ public class SecurePage extends VerticalLayout implements View {
                         + mouseEvent.getRelativeX() + ","
                         + mouseEvent.getRelativeY()
                 );
-                canvas.rect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
                 canvas.setFillStyle("gray");
-                canvas.fill();
+                canvas.fillRect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
             }
         });
-        //canvas.addContextClickListener(event -> JavaScript.getCurrent().execute("alert('Hello')"));
 
         /*Implementation of choosers*/
         ChooserForm chooserForm = new ChooserForm(this);
+        chooserForm.getR_chooser().addSelectionListener(singleSelectionEvent -> {
+                    int mult = Integer.parseInt(chooserForm.getR_chooser().getSelectedItem().orElse("0"));
+                    canvas.clear();
+
+                    canvas.beginPath();
+                    canvas.arc(150, 150, 10*mult, Math.PI, 3*Math.PI/2, true);
+                    canvas.lineTo(150,150);
+                    canvas.closePath();
+                    canvas.rect(150, 100+10*(5-mult), 20*mult, 10*mult);
+                    canvas.setFillStyle(59, 164, 199);
+                    canvas.fill();
+                    canvas.beginPath();
+                    canvas.moveTo(150,150);
+                    canvas.lineTo(150, 200-10*(5-mult));
+                    canvas.lineTo(200-10*(5-mult), 150);
+                    canvas.lineTo(150, 150);
+                    canvas.closePath();
+                    canvas.setFillStyle(59, 164, 199);
+                    canvas.fill();
+
+                    canvas.beginPath();
+                    //Ox
+                    canvas.moveTo(30, 150);
+                    canvas.lineTo(270, 150);
+                    canvas.lineTo(260, 140);
+                    canvas.moveTo(270, 150);
+                    canvas.lineTo(260, 160);
+
+                    //Oy
+                    canvas.moveTo(150, 30);
+                    canvas.lineTo(140, 40);
+                    canvas.moveTo(150, 30);
+                    canvas.lineTo(160, 40);
+                    canvas.moveTo(150, 30);
+                    canvas.lineTo(150, 270);
+                    canvas.moveTo(30, 150);
+                    canvas.stroke();
+                    canvas.closePath();
+
+                    addComponent(new Label("Selected " + chooserForm.getR_chooser().getSelectedItem().orElse("none")));
+                }
+            );
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
         addComponents(title, body);
 
