@@ -164,7 +164,7 @@ public class SecurePage extends VerticalLayout implements View {
             public void buttonClick(ClickEvent clickEvent) {
                 if (!chooserForm.getBinder().validate().isOk())
                     Notification.show("Alert:", "You should select all the fields", Notification.Type.WARNING_MESSAGE);
-                //Notification.show("Alert:", "sss", Notification.Type.WARNING_MESSAGE);
+                else mb.saveDataToDB(0,0,0,true);
                 mb.simple();
             }
         });

@@ -13,7 +13,8 @@ public class HitTableEntity {
     private Boolean answer;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false) /*columnDefinition = "serial"*/
     public int getId() {
         return id;
     }

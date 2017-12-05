@@ -106,4 +106,24 @@ public class MainBean implements IMainBean, Serializable {
     public void simple() {
         System.out.println("ALALALLALA");
     }
+
+    @Override
+    public void saveDataToDB(double x, double y, double r, boolean res) {
+        System.out.println("Results is x: " + x + " y: " + y + " r: " + " " + r + " res: " + res);
+        final Session session = getSession();
+        session.beginTransaction();
+
+        HitTableEntity hit = new HitTableEntity();
+        hit.setX(x);
+        hit.setY(y);
+        hit.setR((int)r);
+        hit.setAnswer(res);
+        final Query query = session.createQuery("from HitTableEntity");
+        hit.setId(query.list().size());
+
+
+
+        session.save(hit);
+        session.getTransaction().commit();
+    }
 }
