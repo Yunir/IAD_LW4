@@ -51,6 +51,7 @@ public class WelcomePage extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+
         AUTH = new Authentication();
         new Navigator(this, this);
 

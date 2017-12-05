@@ -19,6 +19,32 @@
  * @group util
  */
 
+/*============== My styles ==============*/
+.myresponsive {
+	padding: 5px;
+	line-height: 36pt;
+}
+
+/* Small size */
+@media only screen and (min-width: 768px) {
+	.myresponsive{
+		background: black;
+	}
+}
+@media only screen and (min-width: 1024px) {
+	.myresponsive{
+		background: gray;
+	}
+}
+
+@media only screen and (min-width: 1600px) {
+	.myresponsive{
+		background: red;
+	}
+}
+
+/*==========================================*/
+
 @-webkit-keyframes valo-animate-in-fade {
 		0% {
 		opacity: 0;

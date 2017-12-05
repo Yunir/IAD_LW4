@@ -7,7 +7,9 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -45,6 +47,16 @@ public class SecurePage extends VerticalLayout implements View {
         Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
         mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
         title = new Label("Web-service developed by Promotorov Vlad and Salimzyanov Yunir from P3211.\nVariant 482");
+
+        Label c = new Label("Here be text");
+        c.addStyleName("myresponsive");
+        addComponent(c);
+
+
+
+        // Enable Responsive CSS selectors for the component
+        Responsive.makeResponsive(c);
+
         canvas = new Canvas();
         canvas.setWidth("300px");
         canvas.setHeight("300px");
@@ -62,6 +74,7 @@ public class SecurePage extends VerticalLayout implements View {
         canvas.lineTo(150, 150);
         canvas.closePath();
         canvas.fill();
+
         /*canvas.restoreContext();*/
 
         canvas.beginPath();
@@ -83,7 +96,23 @@ public class SecurePage extends VerticalLayout implements View {
         canvas.moveTo(30, 150);
         canvas.closePath();
         canvas.stroke();
-
+        canvas.beginPath();
+        canvas.moveTo(150, 150);
+        canvas.closePath();
+        canvas.stroke();
+        canvas.addMouseDownListener(new Canvas.CanvasMouseDownListener() {
+            @Override
+            public void onMouseDown(MouseEventDetails mouseEvent) {
+                System.out.println("Mouse clicked to "
+                        + mouseEvent.getRelativeX() + ","
+                        + mouseEvent.getRelativeY()
+                );
+                canvas.rect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
+                canvas.setFillStyle("gray");
+                canvas.fill();
+            }
+        });
+        //canvas.addContextClickListener(event -> JavaScript.getCurrent().execute("alert('Hello')"));
 
         /*Implementation of choosers*/
         ChooserForm chooserForm = new ChooserForm(this);
