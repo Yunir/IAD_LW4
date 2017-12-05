@@ -94,6 +94,10 @@ public class SecurePage extends VerticalLayout implements View {
         canvas.addMouseDownListener(new Canvas.CanvasMouseDownListener() {
             @Override
             public void onMouseDown(MouseEventDetails mouseEvent) {
+                if(getR() == 0) {
+                    Notification.show("Alert:", "You should select the R value", Notification.Type.WARNING_MESSAGE);
+                    return;
+                }
                 double x = mouseEvent.getRelativeX();
                 double y = mouseEvent.getRelativeY();
                 x -= 150;
@@ -105,6 +109,7 @@ public class SecurePage extends VerticalLayout implements View {
                         + x + ","
                         + y
                 );
+                mb.saveDataToDB(x, y, getR(), checkArea(x, y, getR()));
                 canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
                 canvas.fillRect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
             }
@@ -162,10 +167,15 @@ public class SecurePage extends VerticalLayout implements View {
         chooserForm.getB_checkHit().addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                if (!chooserForm.getBinder().validate().isOk())
+                double x, y, r;
+                if (!chooserForm.getBinder().validate().isOk()) {
                     Notification.show("Alert:", "You should select all the fields", Notification.Type.WARNING_MESSAGE);
-                else mb.saveDataToDB(0,0,0,true);
-                mb.simple();
+                } else {
+                    x = Double.parseDouble(chooserForm.getX_chooser().getValue());
+                    y = Double.parseDouble(chooserForm.getY_chooser().getValue());
+                    r = Double.parseDouble(chooserForm.getR_chooser().getValue());
+                    mb.saveDataToDB(x, y, r, checkArea(x, y, r));
+                }
             }
         });
 
