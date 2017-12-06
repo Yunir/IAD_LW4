@@ -11,18 +11,23 @@ import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import javafx.util.Pair;
 import org.vaadin.hezamu.canvas.Canvas;
 
 import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @CDIView("secure")
 public class SecurePage extends VerticalLayout implements View {
     @Inject
     private CDIViewProvider viewProvider;
-
+    private Map<Double, ArrayList<Double>> xy_values;
     MainBean mb;
     private int R = 0;
     private Canvas canvas;
@@ -35,6 +40,7 @@ public class SecurePage extends VerticalLayout implements View {
     public static final String NAME = "Secure";
     public SecurePage() throws NamingException {
         /*mb.simple();*/
+         xy_values = new HashMap<Double, ArrayList<Double>>();
         Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
         mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
         title = new Label("Web-service developed by Promotorov Vlad and Salimzyanov Yunir from P3211.\nVariant 482");
@@ -100,6 +106,7 @@ public class SecurePage extends VerticalLayout implements View {
                 }
                 double x = mouseEvent.getRelativeX();
                 double y = mouseEvent.getRelativeY();
+                addValues(x, y);
                 x -= 150;
                 y -= 150;
                 y *= -1;
@@ -111,6 +118,10 @@ public class SecurePage extends VerticalLayout implements View {
                 );
                 canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
                 canvas.fillRect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
+                mb.x_values.add(x);
+                mb.y_values.add(y);
+                mb.r_values.add(getR());
+                mb.res_values.add(checkArea(x, y, getR()));
                 mb.saveDataToDB(x, y, getR(), checkArea(x, y, getR()));
             }
         });
@@ -158,7 +169,30 @@ public class SecurePage extends VerticalLayout implements View {
                     canvas.stroke();
                     canvas.closePath();
 
-                    addComponent(new Label("Selected " + chooserForm.getR_chooser().getSelectedItem().orElse("none")));
+                    Iterator it = xy_values.keySet().iterator();
+                    ArrayList<Double> tempList = null;
+
+                    while (it.hasNext()) {
+                        Double x = (Double) it.next();
+                        tempList = xy_values.get(x);
+                        if (tempList != null) {
+                            for (Double y: tempList) {
+                                double sx = x, sy = y;
+                                x -= 150;
+                                y -= 150;
+                                y *= -1;
+                                x = x/100*5;
+                                y = y/100*5;
+                                canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
+                                canvas.fillRect(sx-2, sy-2, 4, 4);
+                            }
+                        }
+                    }
+
+
+                    for (int i = 0; i < mb.x_values.size(); i++) {
+                        addComponent(new Label("x = " + mb.x_values.get(i) + "; y = " + mb.y_values.get(i)));
+                    }
                 }
             );
         HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
@@ -180,6 +214,7 @@ public class SecurePage extends VerticalLayout implements View {
                     y = -1*y*20;
                     x += 150;
                     y += 150;
+                    addValues(x, y);
                     canvas.fillRect(x-2, y-2, 4, 4);
 
                 }
@@ -241,8 +276,18 @@ public class SecurePage extends VerticalLayout implements View {
         }
     }
 
-    public void drawPoint (double x, double y) {
-
+    private void addValues(Double key, Double value) {
+        ArrayList tempList = null;
+        if (xy_values.containsKey(key)) {
+            tempList = xy_values.get(key);
+            if(tempList == null)
+                tempList = new ArrayList();
+            tempList.add(value);
+        } else {
+            tempList = new ArrayList();
+            tempList.add(value);
+        }
+        xy_values.put(key,tempList);
     }
 
     public void setR(int r) {

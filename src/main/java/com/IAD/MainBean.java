@@ -16,17 +16,22 @@ import javax.enterprise.inject.Model;
 import javax.persistence.metamodel.EntityType;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Model
-@Stateless
-@Dependent
+//@Stateless
+//@Dependent
+@Stateful
 @LocalBean
 //TODO: change direction to secure page again and add LocalBean annotation
 public class MainBean implements IMainBean, Serializable {
     private static final SessionFactory ourSessionFactory;
-
+    ArrayList<Double> x_values;
+    ArrayList<Double> y_values;
+    ArrayList<Integer> r_values;
+    ArrayList<Boolean> res_values;
     static {
         try {
             Configuration configuration = new Configuration();
@@ -47,6 +52,12 @@ public class MainBean implements IMainBean, Serializable {
     }
 
     public MainBean() {
+        if(x_values == null) {
+            x_values = new ArrayList<>();
+            y_values = new ArrayList<>();
+            r_values = new ArrayList<>();
+            res_values = new ArrayList<>();
+        }
     }
 
 

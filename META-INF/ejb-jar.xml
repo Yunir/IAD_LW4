@@ -8,7 +8,7 @@
         <session>
             <ejb-name>MainEJB</ejb-name>
             <ejb-class>com.IAD.MainBean</ejb-class>
-            <session-type>Stateless</session-type>
+            <session-type>Stateful</session-type>
             <transaction-type>Container</transaction-type>
         </session>
     </enterprise-beans>
