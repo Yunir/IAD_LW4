@@ -109,9 +109,9 @@ public class SecurePage extends VerticalLayout implements View {
                         + x + ","
                         + y
                 );
-                mb.saveDataToDB(x, y, getR(), checkArea(x, y, getR()));
                 canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
                 canvas.fillRect(mouseEvent.getRelativeX()-2, mouseEvent.getRelativeY()-2, 4, 4);
+                mb.saveDataToDB(x, y, getR(), checkArea(x, y, getR()));
             }
         });
 
@@ -175,6 +175,13 @@ public class SecurePage extends VerticalLayout implements View {
                     y = Double.parseDouble(chooserForm.getY_chooser().getValue());
                     r = Double.parseDouble(chooserForm.getR_chooser().getValue());
                     mb.saveDataToDB(x, y, r, checkArea(x, y, r));
+                    canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
+                    x = x*20;
+                    y = -1*y*20;
+                    x += 150;
+                    y += 150;
+                    canvas.fillRect(x-2, y-2, 4, 4);
+
                 }
             }
         });
@@ -232,6 +239,10 @@ public class SecurePage extends VerticalLayout implements View {
             System.out.println("Not hitted");
             return false;
         }
+    }
+
+    public void drawPoint (double x, double y) {
+
     }
 
     public void setR(int r) {
