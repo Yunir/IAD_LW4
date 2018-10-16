@@ -20,26 +20,25 @@
  */
 
 /*============== My styles ==============*/
-.myresponsive {
-	padding: 5px;
-	line-height: 36pt;
+
+.cblock {
+	width: 300px;
+	background: lightgray;
+	padding: 25px;
 }
 
-/* Small size */
+.title, .v-select-optiongroup-horizontal {
+	white-space: normal !important;
+}
+
 @media only screen and (min-width: 768px) {
-	.myresponsive{
-		background: black;
+	.cblock {
+		width: 500px;
 	}
 }
 @media only screen and (min-width: 1024px) {
-	.myresponsive{
-		background: gray;
-	}
-}
-
-@media only screen and (min-width: 1600px) {
-	.myresponsive{
-		background: red;
+	.cblock{
+		width: 700px;
 	}
 }
 

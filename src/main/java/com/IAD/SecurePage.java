@@ -27,32 +27,33 @@ import java.util.Map;
 public class SecurePage extends VerticalLayout implements View {
     @Inject
     private CDIViewProvider viewProvider;
-    private Map<Double, ArrayList<Double>> xy_values;
+    private ArrayList<Double> x_values;
+    private ArrayList<Double> y_values;
+
     MainBean mb;
     private int R = 0;
     private Canvas canvas;
+    private Grid grid;
     private static final long serialVersionUID = 1L;
-    private Label secure;
+    //private Label secure;
     private Label currentUser;
     private Label title;
-    private Button otherSecure;
+    //private Button otherSecure;
     private Button logout;
     public static final String NAME = "Secure";
     public SecurePage() throws NamingException {
         /*mb.simple();*/
-         xy_values = new HashMap<Double, ArrayList<Double>>();
+         x_values = new ArrayList<>();
+         y_values = new ArrayList<>();
         Context compEnv = (Context) new InitialContext().lookup("java:comp/env");
         mb = (MainBean) new InitialContext().lookup("java:global/IAD_Vaadin-1.3-SNAPSHOT/MainBean!com.IAD.MainBean");
+
         title = new Label("Web-service developed by Promotorov Vlad and Salimzyanov Yunir from P3211.\nVariant 482");
-
-        Label c = new Label("Here be text");
-        c.addStyleName("myresponsive");
-        addComponent(c);
-
-
-
-        // Enable Responsive CSS selectors for the component
-        Responsive.makeResponsive(c);
+        title.addStyleNames("title", "cblock");
+        //title.setResponsive(true);
+        //Responsive.makeResponsive(title);
+        /*title.addStyleName("body_container");
+        Responsive.makeResponsive(title);*/
 
         canvas = new Canvas();
         canvas.setWidth("300px");
@@ -106,7 +107,8 @@ public class SecurePage extends VerticalLayout implements View {
                 }
                 double x = mouseEvent.getRelativeX();
                 double y = mouseEvent.getRelativeY();
-                addValues(x, y);
+                x_values.add(x);
+                y_values.add(y);
                 x -= 150;
                 y -= 150;
                 y *= -1;
@@ -169,24 +171,15 @@ public class SecurePage extends VerticalLayout implements View {
                     canvas.stroke();
                     canvas.closePath();
 
-                    Iterator it = xy_values.keySet().iterator();
-                    ArrayList<Double> tempList = null;
-
-                    while (it.hasNext()) {
-                        Double x = (Double) it.next();
-                        tempList = xy_values.get(x);
-                        if (tempList != null) {
-                            for (Double y: tempList) {
-                                double sx = x, sy = y;
-                                x -= 150;
-                                y -= 150;
-                                y *= -1;
-                                x = x/100*5;
-                                y = y/100*5;
-                                canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
-                                canvas.fillRect(sx-2, sy-2, 4, 4);
-                            }
-                        }
+                    for (int i = 0; i < x_values.size(); i++) {
+                        double x = x_values.get(i), y = y_values.get(i);
+                        x -= 150;
+                        y -= 150;
+                        y *= -1;
+                        x = x/100*5;
+                        y = y/100*5;
+                        canvas.setFillStyle(checkArea(x, y, getR())?"white":"gray");
+                        canvas.fillRect(x_values.get(i)-2, y_values.get(i)-2, 4, 4);
                     }
 
 
@@ -195,9 +188,13 @@ public class SecurePage extends VerticalLayout implements View {
                     }
                 }
             );
-        HorizontalLayout body = new HorizontalLayout(canvas, chooserForm);
+        CssLayout body = new CssLayout(canvas, chooserForm);
+        body.addStyleName("cblock");
+        /*Responsive.makeResponsive(body);*/
         addComponents(title, body);
-
+        setComponentAlignment(title, Alignment.MIDDLE_CENTER);
+        setComponentAlignment(body, Alignment.MIDDLE_CENTER);
+        setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         chooserForm.getB_checkHit().addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
@@ -214,7 +211,8 @@ public class SecurePage extends VerticalLayout implements View {
                     y = -1*y*20;
                     x += 150;
                     y += 150;
-                    addValues(x, y);
+                    x_values.add(x);
+                    y_values.add(y);
                     canvas.fillRect(x-2, y-2, 4, 4);
 
                 }
@@ -222,7 +220,7 @@ public class SecurePage extends VerticalLayout implements View {
         });
 
 
-        otherSecure = new Button("OtherSecure");
+        /*otherSecure = new Button("OtherSecure");
         otherSecure.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -230,7 +228,7 @@ public class SecurePage extends VerticalLayout implements View {
             public void buttonClick(ClickEvent event) {
                 Page.getCurrent().setUriFragment("!"+OtherSecurePage.NAME);
             }
-        });
+        });*/
 
         logout = new Button("Logout");
         logout.addClickListener(new ClickListener() {
@@ -245,17 +243,17 @@ public class SecurePage extends VerticalLayout implements View {
             }
         });
 
-        secure = new Label("secure");
-        currentUser = new Label("Current User");
-        addComponent(secure);
-        addComponent(currentUser);
-        addComponent(otherSecure);
+        //secure = new Label("secure");
+        //currentUser = new Label("Current User");
+        //addComponent(secure);
+        //addComponent(currentUser);
+        //addComponent(otherSecure);
         addComponent(logout);
     }
 
     @Override
     public void enter(ViewChangeEvent event) {
-        currentUser.setCaption("Current user : " + VaadinSession.getCurrent().getAttribute("user").toString());
+        //currentUser.setCaption("Current user: " + VaadinSession.getCurrent().getAttribute("user").toString());
     }
 
     private boolean checkArea(double x, double y, double r){
@@ -274,20 +272,6 @@ public class SecurePage extends VerticalLayout implements View {
             System.out.println("Not hitted");
             return false;
         }
-    }
-
-    private void addValues(Double key, Double value) {
-        ArrayList tempList = null;
-        if (xy_values.containsKey(key)) {
-            tempList = xy_values.get(key);
-            if(tempList == null)
-                tempList = new ArrayList();
-            tempList.add(value);
-        } else {
-            tempList = new ArrayList();
-            tempList.add(value);
-        }
-        xy_values.put(key,tempList);
     }
 
     public void setR(int r) {
