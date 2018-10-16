@@ -37,7 +37,7 @@ public class LoginForm extends VerticalLayout implements View {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                if(true || WelcomePage.AUTH.authenticate(username.getValue(), password.getValue())){
+                if(WelcomePage.AUTH.authenticate(username.getValue(), password.getValue())){
                     VaadinSession.getCurrent().setAttribute("user", username.getValue());
                     getUI().getNavigator().addView(SecurePage.NAME, SecurePage.class);
                     getUI().getNavigator().addView(OtherSecurePage.NAME, OtherSecurePage.class);
